@@ -3,6 +3,7 @@ import { Request, Response } from "express"
 import Crawler from "../models/Crawler"
 import MLProduct from "../models/MLProduct"
 import MLProductList from "../models/MLProductList"
+import { PerformanceStats } from "../functions/performance";
 
 // constants
 const DEFAULT_LIMIT = 5;
@@ -16,7 +17,11 @@ export const index = async (req: Request, res: Response) => {
     // check required body params
     if (!search) throw new Error(`Missing param <b>search</b> in body.`)
 
-    // crawl list of products page
+    // start performance statistic
+    const performanceStats = new PerformanceStats()
+    performanceStats.start()
+
+    // crawl product list page
     const crawler = new Crawler(productListUrl);
     const productLinksArr = await crawler.execute(new MLProductList(limit));
 
@@ -28,9 +33,11 @@ export const index = async (req: Request, res: Response) => {
       })
     );
 
+    // end
+    performanceStats.stop()
     res.send(crawledProducsArr);
   } catch (error) {
-    console.error(error)
+    console.error(error.message)
     res.status(404).send(error.message);
   }
 }

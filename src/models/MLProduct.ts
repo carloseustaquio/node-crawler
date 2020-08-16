@@ -9,6 +9,7 @@ export default class MLProduct implements ProductPage {
   constructor() { }
 
   crawlerRun($: CheerioSelector, url: string) {
+    console.info("Crawling product page...")
     this.link = url;
     this.name = this.selectName($);
     this.price = this.selectPrice($);

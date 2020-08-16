@@ -1,7 +1,8 @@
 require("dotenv").config();
-const express = require("express");
-const bodyParser = require("body-parser");
-const router = require("./routes");
+
+import express from "express"
+import bodyParser from "body-parser"
+import router from "./routes"
 
 // create Express server
 const app = express();
@@ -13,4 +14,4 @@ app.use(bodyParser.json());
 // apply routes
 app.use(router);
 
-module.exports = app;
+export default app

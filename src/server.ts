@@ -1,4 +1,4 @@
-const app = require("./app");
+import app from "./app"
 
 // Initializes server
 const server = app.listen(app.get("port"), () => {

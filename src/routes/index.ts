@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express"
 
 // Controllers
 const CrawlerController = require("../Controllers/CrawlerController");
@@ -13,4 +13,4 @@ router.get("/", (req, res) => {
 // POST
 router.post("/crawler", CrawlerController.index);
 
-module.exports = router;
+export default router;

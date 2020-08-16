@@ -1,7 +1,7 @@
 import express from "express"
 
 // Controllers
-const CrawlerController = require("../Controllers/CrawlerController");
+import * as CrawlerController from "../Controllers/CrawlerController"
 
 const router = express.Router();
 

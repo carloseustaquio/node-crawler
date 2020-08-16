@@ -1,7 +1,14 @@
-class MLProduct {
-  constructor() {}
+import ProductPage from "../appTypes/ProductPage"
 
-  crawlerRun($, url) {
+export default class MLProduct implements ProductPage {
+  public link: string = ""
+  public name: string = ""
+  public price: number = 0
+  public store: string | null = ""
+  public state: string | null = ""
+  constructor() { }
+
+  crawlerRun($: CheerioSelector, url: string) {
     this.link = url;
     this.name = this.selectName($);
     this.price = this.selectPrice($);
@@ -11,13 +18,13 @@ class MLProduct {
     return this;
   }
 
-  selectName($) {
+  selectName($: CheerioSelector) {
     return $(".ui-pdp-title, .item-title h1.item-title__primary")
       .text()
       .replace(/\n|\t/g, "");
   }
 
-  selectPrice($) {
+  selectPrice($: CheerioSelector) {
     const productPrice =
       $("[itemprop=price]").text() ||
       $("[itemprop=offers]").text() ||
@@ -28,17 +35,14 @@ class MLProduct {
         )
         .text();
 
-    const sanitizedPrice = productPrice
-      .match(/\d|[,]/g)
-      .join("")
-      .replace(",", ".");
+    const sanitizedPriceArr = productPrice.match(/\d|[,]/g) // possibly null
+    const sanitizedPrice = sanitizedPriceArr && // only executes if sanitizedPriceArr !== null
+      parseFloat(sanitizedPriceArr.join("").replace(",", "."))
 
-    console.log(sanitizedPrice);
-
-    return parseFloat(sanitizedPrice);
+    return sanitizedPrice || 0
   }
 
-  selectStore($) {
+  selectStore($: CheerioSelector) {
     const store =
       $(".ui-pdp-seller__header__title .ui-pdp-seller__link-trigger").text() ||
       $(".official-store-info .title").text().trim() ||
@@ -47,7 +51,7 @@ class MLProduct {
     return store;
   }
 
-  selectState($) {
+  selectState($: CheerioSelector) {
     const productState =
       $(".ui-pdp-header__subtitle .ui-pdp-subtitle")
         .text()
@@ -60,5 +64,3 @@ class MLProduct {
     } else return null;
   }
 }
-
-module.exports = MLProduct;

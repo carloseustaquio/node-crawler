@@ -1,19 +1,18 @@
-const axios = require("axios");
-const cheerio = require("cheerio");
+import axios from "axios";
+import cheerio from "cheerio";
+import Page from "../appTypes/Page";
 
-class Crawler {
-  constructor(url) {
-    this.url = url;
-  }
+export default class Crawler {
+  constructor(private url: string) { }
 
-  async execute(model) {
+  async execute(model: Page) {
     const html = await this.fetchData();
     const $ = cheerio.load(html);
 
     return model.crawlerRun($, this.url);
   }
 
-  async fetchData(search) {
+  async fetchData(search?: string) {
     const searchUrl = encodeURI(this.url);
     const response = await axios(searchUrl);
 
@@ -25,5 +24,3 @@ class Crawler {
     return response.data;
   }
 }
-
-module.exports = Crawler;

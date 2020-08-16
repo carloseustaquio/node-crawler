@@ -3,23 +3,21 @@ import { Request, Response } from "express"
 import Crawler from "../models/Crawler"
 import MLProduct from "../models/MLProduct"
 import MLProductList from "../models/MLProductList"
-// helper function
-import checkRequiredParams from "../helpers/checkRequiredParams"
 
 // constants
 const DEFAULT_LIMIT = 5;
-const DEFAULT_URL = `https://lista.mercadolivre.com.br`;
+const URL = `https://lista.mercadolivre.com.br`;
 
 export const index = async (req: Request, res: Response) => {
   try {
     const { search, limit = DEFAULT_LIMIT } = req.body;
-    const listUrl = `${DEFAULT_URL}/${search}`;
+    const productListUrl = `${URL}/${search}`;
 
-    // check body params
-    checkRequiredParams([search]);
+    // check required body params
+    if (!search) throw new Error(`Missing param <b>search</b> in body.`)
 
     // crawl list of products page
-    const crawler = new Crawler(listUrl);
+    const crawler = new Crawler(productListUrl);
     const productLinksArr = await crawler.execute(new MLProductList(limit));
 
     // crawl each product's page and retrieve it's data
@@ -32,6 +30,7 @@ export const index = async (req: Request, res: Response) => {
 
     res.send(crawledProducsArr);
   } catch (error) {
+    console.error(error)
     res.status(404).send(error.message);
   }
 }

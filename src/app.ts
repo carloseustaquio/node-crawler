@@ -1,15 +1,16 @@
-import { config } from "dotenv"
-config()
+import { config as dotEnvConfig } from "dotenv"
 import express from "express"
-import bodyParser from "body-parser"
 import router from "./routes"
+
+// configure envaironment variables
+dotEnvConfig()
 
 // create Express server
 const app = express();
 
 // Express configuration
 app.set("port", process.env.PORT || 3000);
-app.use(bodyParser.json());
+app.use(express.json());
 
 // apply routes
 app.use(router);

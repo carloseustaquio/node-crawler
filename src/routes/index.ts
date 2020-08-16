@@ -1,9 +1,9 @@
-import express from "express"
+import { Router } from "express"
 
 // Controllers
 import * as CrawlerController from "../Controllers/CrawlerController"
 
-const router = express.Router();
+const router = Router();
 
 // GET
 router.get("/", (req, res) => {

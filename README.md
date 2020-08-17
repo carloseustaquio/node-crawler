@@ -37,3 +37,7 @@ npm install
 npm run build
 npm start
 ```
+
+## Todo 📅
+
+Receive `url` parameter in the request, and create more `models` to crawl other buying websites: OLX, Amazon, Ebay, etc.

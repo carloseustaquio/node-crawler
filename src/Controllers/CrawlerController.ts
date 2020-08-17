@@ -37,7 +37,7 @@ export const index = async (req: Request, res: Response) => {
     performanceStats.stop()
     res.send(crawledProducsArr);
   } catch (error) {
-    console.error(error.message)
-    res.status(404).send(error.message);
+    console.error(error)
+    res.status(404).send(`<p>Error: ${error.message}</p>`);
   }
 }

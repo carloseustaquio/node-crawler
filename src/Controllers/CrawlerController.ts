@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { Request, Response, NextFunction } from "express"
 // models
 import Crawler from "../models/Crawler"
 import MLProduct from "../models/MLProduct"
@@ -9,7 +9,7 @@ import { PerformanceStats } from "../functions/performance";
 const DEFAULT_LIMIT = 5;
 const URL = `https://lista.mercadolivre.com.br`;
 
-export const index = async (req: Request, res: Response) => {
+export const index = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { search, limit = DEFAULT_LIMIT } = req.body;
     const productListUrl = `${URL}/${search}`;
@@ -37,7 +37,6 @@ export const index = async (req: Request, res: Response) => {
     performanceStats.stop()
     res.send(crawledProducsArr);
   } catch (error) {
-    console.error(error)
-    res.status(404).send(`<p>Error: ${error.message}</p>`);
+    next(error)
   }
 }

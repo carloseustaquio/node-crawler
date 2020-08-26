@@ -1,7 +1,7 @@
 
 import { performance } from "perf_hooks"
 
-export class PerformanceStats {
+export default class PerformanceStats {
   private t0: any
   private t1: any
 

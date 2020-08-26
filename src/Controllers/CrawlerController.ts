@@ -3,7 +3,7 @@ import { Request, Response, NextFunction } from "express"
 import Crawler from "../models/Crawler"
 import MLProduct from "../models/MLProduct"
 import MLProductList from "../models/MLProductList"
-import { PerformanceStats } from "../functions/performance";
+import PerformanceStats from "../helpers/Performance";
 
 // constants
 const DEFAULT_LIMIT = 5;
@@ -35,7 +35,7 @@ export const index = async (req: Request, res: Response, next: NextFunction) => 
 
     // end
     performanceStats.stop()
-    res.send(crawledProducsArr);
+    res.json(crawledProducsArr);
   } catch (error) {
     next(error)
   }

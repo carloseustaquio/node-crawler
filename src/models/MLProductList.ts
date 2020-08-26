@@ -16,7 +16,7 @@ export default class MLProductList implements ProductList {
     if (!arrLinks.length) {
       throw new Error(
         `No items returned in search. 
-        Please, try again later or with other <b>search</b> value.`
+        Please, try again later or with other search value.`
       )
     }
 

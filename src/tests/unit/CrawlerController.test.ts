@@ -1,12 +1,9 @@
 import * as CrawlerController from "../../Controllers/CrawlerController"
-import Crawler from "../../models/Crawler"
 import MLProduct from "../../models/MLProduct"
 import MLProductList from "../../models/MLProductList"
 import httpMocks, { MockRequest, MockResponse } from "node-mocks-http"
 // mock data
 import bodyWithoutSearch from "../mockData/bodyWithNoSearch.json"
-
-jest.mock("../../models/Crawler")
 
 let req: MockRequest<any>, res: MockResponse<any>, next: jest.Mock
 
@@ -21,5 +18,12 @@ describe("CrawlerController.index", () => {
     req.body = bodyWithoutSearch
     await CrawlerController.index(req, res, next)
     expect(next).toHaveBeenCalled()
+  })
+
+  it("number of returns in body should be the same asked in limit", async () => {
+    req.body = { search: "produto", limit: 2 }
+    await CrawlerController.index(req, res, next)
+    expect(res._getJSONData().length).toBe(2)
+    expect(res._isEndCalled()).toBeTruthy()
   })
 })
